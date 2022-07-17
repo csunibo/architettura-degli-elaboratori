@@ -1,0 +1,151 @@
+function Input.init 0
+push constant 2
+call String.new 1
+push constant 32 // space
+call String.appendChar 2
+push constant 62 // >
+call String.appendChar 2
+pop static 0 // prompt
+push constant 0
+return
+
+function Input.int 0
+push static 0
+call Keyboard.readInt 1
+return
+
+function Input.iteration 1
+push constant 1
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push constant 62 // >
+call Output.printChar 1
+pop temp 0
+call Keyboard.readChar 0
+pop local 0
+push local 0
+push constant 67 // [C]lear screen
+eq
+not
+if-goto if2
+call Graphics.clearScreen 0
+return
+label if2
+push local 0
+push constant 83 // [S]wap colors
+eq
+not
+if-goto if3
+call Graphics.swapColors 0
+return
+label if3
+push local 0
+push constant 80 // draw [P]ixel
+eq
+not
+if-goto if4
+push constant 2
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+call Input.int 0
+call Input.int 0
+call Input.int 0
+call Graphics.drawPixel 3
+return
+label if4
+push local 0
+push constant 76 // draw [L]ine
+eq
+not
+if-goto if5
+push constant 2
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+call Input.int 0
+call Input.int 0
+call Input.int 0
+call Graphics.drawLine 3
+return
+label if5
+push local 0
+push constant 130 // move [left]
+eq
+not
+if-goto if6
+push constant 5
+neg
+push constant 0
+push constant 0
+call Graphics.move 3
+return
+label if6
+push local 0
+push constant 131 // move [up]
+eq
+not
+if-goto if7
+push constant 0
+push constant 5
+neg
+push constant 0
+call Graphics.move 3
+return
+label if7
+push local 0
+push constant 132 // move [right]
+eq
+not
+if-goto if8
+push constant 5
+push constant 0
+push constant 0
+call Graphics.move 3
+return
+label if8
+push local 0
+push constant 133 // move [down]
+eq
+not
+if-goto if9
+push constant 0
+push constant 5
+push constant 0
+call Graphics.move 3
+return
+label if9
+push local 0
+push constant 43 // zoom [+]
+eq
+not
+if-goto if10
+push constant 0
+push constant 0
+push constant 1
+call Graphics.move 3
+return
+label if10
+push local 0
+push constant 45 // zoom [-]
+eq
+not
+if-goto if11
+push constant 0
+push constant 0
+push constant 1
+neg
+call Graphics.move 3
+return
+label if11
+push local 0
+push constant 85 // [U]ndo
+eq
+not
+if-goto end
+call Graphics.undo 0
+return
+label end
+push constant 0
+return
