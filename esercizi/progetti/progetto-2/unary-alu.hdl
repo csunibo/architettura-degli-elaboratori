@@ -1,0 +1,17 @@
+/**
+ * The Unary ALU (Unary Arithmetic Logic Unit).
+ * Conditionally zero and negates a 16-bit input.
+ * if (z == 1) set in = 0       // 16-bit constant
+ * if (n == 1) set in = !in     // bitwise not
+ */
+
+
+CHIP UnaryALU {
+    IN in[16], z, n;
+    OUT out[16];
+
+    PARTS:
+    Mux16(a=in, b[0..15]=false, sel=z, out=in2);
+    Not16(in=in2, out=notIn2);
+    Mux16(a=in2, b=notIn2, sel=n, out=out);
+}

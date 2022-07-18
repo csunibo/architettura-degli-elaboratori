@@ -1,0 +1,11 @@
+function Main.main 0
+call Graphics.init 0
+pop temp 0
+call Input.init 0
+pop temp 0
+label loop
+call Input.iteration 0
+pop temp 0
+call Graphics.refresh 0
+pop temp 0
+goto loop

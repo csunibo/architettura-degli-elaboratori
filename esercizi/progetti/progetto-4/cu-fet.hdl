@@ -1,0 +1,23 @@
+/**
+ * The second module of Hack's CU (Control Unit) fetches instructions
+ */
+
+CHIP cuFet {
+    IN instruction[4], // Jump information ([0..2,15])
+       zeroResult,
+       negativeResult;
+    
+    OUT loadPC;
+    
+    PARTS:
+    // loadPC
+    And(a=instruction[2]/*j1*/, b=negativeResult, out=jumpX);
+    And(a=instruction[1]/*j2*/, b=zeroResult, out=jumpY);
+    Or(a=negativeResult, b=zeroResult, out=noPositiveResult);
+    Not(in=noPositiveResult, out=positiveResult);
+    And(a=instruction[0]/*j3*/, b=positiveResult, out=jumpZ);
+    
+    Or(a=jumpX, b=jumpY, out=jumpXY);
+    Or(a=jumpXY, b=jumpZ, out=jumpXYZ);
+    And(a=jumpXYZ, b=instruction[3]/*=i*/, out=loadPC);
+}
