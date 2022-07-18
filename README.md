@@ -1,7 +1,7 @@
-# architettura degli elaboratori 11925  
+# Architettura degli elaboratori (11925)
 
-Una raccolta di risorse per l'insegnamento di architettura degli elaboratori del Corso di
-Laurea in Informatica.
+Una raccolta di risorse per l'insegnamento di Architettura degli elaboratori
+(11925) del Corso di Laurea in Informatica.
 
 ## Presentazione
 

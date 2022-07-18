@@ -1,0 +1,40 @@
+/**
+ * The first module of Hack's CU (Control Unit)
+ * decodes and executes instructions
+ */
+
+CHIP cuDecEx {
+    IN instruction[13]; // Instruction[3..15] to be decoded and executed
+    
+    OUT isAinstruction,
+        loadA,
+        loadD,
+        selAM,
+        controlBits[6],
+        writeM;
+    
+    PARTS:
+    // isAinstruction
+    Not(in=instruction[12]/*=i*/, out=isAinst);
+    And(a=isAinst, b=isAinst, out=isAinstruction);
+
+    // selAM
+    And(a=instruction[9]/*=a*/, b=instruction[9]/*a*/, out=selAM);
+
+    // controlBits
+    And(a=instruction[8], b=instruction[8], out=controlBits[0]);
+    And(a=instruction[7], b=instruction[7], out=controlBits[1]);
+    And(a=instruction[6], b=instruction[6], out=controlBits[2]);
+    And(a=instruction[5], b=instruction[5], out=controlBits[3]);
+    And(a=instruction[4], b=instruction[4], out=controlBits[4]);
+    And(a=instruction[3], b=instruction[3], out=controlBits[5]);
+
+    // loadA
+    Or(a=instruction[2]/*=d1*/, b=isAinst, out=loadA);
+
+    // loadD
+    And(a=instruction[12]/*=i*/, b=instruction[1]/*=d2*/, out=loadD);
+
+    // writeM
+    And(a=instruction[12]/*=i*/, b=instruction[0]/*=d3*/, out=writeM);
+}

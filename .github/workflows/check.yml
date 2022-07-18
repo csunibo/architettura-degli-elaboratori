@@ -29,7 +29,7 @@ jobs:
         name: Lint file names under ./esercizi
         with:
           path: "./esercizi"
-          pattern: '^(\.gitkeep|([a-z0-9]+(-[a-z0-9]+)*\.[a-zA-Z]+))$'
+          pattern: '^(\.gitkeep|([a-z0-9]+(-[a-z0-9]+)*(\.[a-zA-Z]+)?))$'
           recursive: "true"
       - uses: csunibo/lint-filenames@v1.3.2
         name: Lint file names under ./lavagne

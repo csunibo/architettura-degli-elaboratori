@@ -1,0 +1,319 @@
+function Graphics.init 6
+push constant 0
+pop static 0 // player.x
+push constant 0
+pop static 1 // player.y
+push constant 0
+pop static 2 // player.z
+push constant 2048
+pop static 3 // entities.max_size
+push static 3
+call Array.new 1
+pop static 4 // &entities
+push constant 0
+pop static 5 // entities.size
+push constant 0
+not
+pop static 6 // color
+push static 6
+push constant 10 // distance POV-PP
+pop static 7
+push constant 0
+return
+
+function Graphics.clearScreen 0
+push constant 0
+pop static 5
+push constant 0
+return
+
+function Graphics.swapColors 0
+push static 6
+not
+pop static 6
+push constant 0
+return
+
+function Graphics.pushback 0
+push static 5
+push static 3
+lt
+if-goto push
+push constant 1
+call Sys.error 1 // array overflow
+label push
+push static 4
+push static 5
+add
+pop pointer 0
+push argument 0
+pop this 0
+push static 5
+push constant 1
+add
+pop static 5
+push argument 0
+return
+
+function Graphics.drawPixel 0
+push constant 0 // pixel
+call Graphics.pushback 1
+pop temp 0
+push argument 0
+call Graphics.pushback 1
+pop temp 0
+push argument 1
+call Graphics.pushback 1
+pop temp 0
+push argument 2
+call Graphics.pushback 1
+return
+
+function Graphics.drawLine 0
+push constant 1 // line
+call Graphics.pushback 1
+pop temp 0
+push argument 0
+call Graphics.pushback 1
+pop temp 0
+push argument 1
+call Graphics.pushback 1
+pop temp 0
+push argument 2
+call Graphics.pushback 1
+pop temp 0
+return
+
+function Graphics.move 0
+push static 0
+push argument 0
+add
+pop static 0
+push static 1
+push argument 1
+add
+pop static 1
+push static 2
+push argument 2
+add
+pop static 2
+push constant 0
+return
+
+function Graphics.undo 0
+push static 5
+push constant 4
+sub
+push constant 0
+call Math.max 2
+pop static 5
+push static 5
+return
+
+function Graphics.toX 0
+push argument 0
+push static 0
+sub
+push static 7
+call Math.multiply 2
+push argument 2
+push static 2
+sub
+call Math.divide 2
+push constant 256
+add
+return
+
+function Graphics.toY 0
+push argument 1
+push static 1
+sub
+push static 7
+call Math.multiply 2
+push argument 2
+push static 2
+sub
+call Math.divide 2
+push constant 128
+add
+return
+
+function Graphics.safeDrawPixel 0
+push argument 0
+push constant 0
+lt
+if-goto end
+push argument 0
+push constant 511
+gt
+if-goto end
+push argument 1
+push constant 0
+lt
+if-goto end
+push argument 1
+push constant 255
+gt
+if-goto end
+push argument 0
+push argument 1
+call Screen.drawPixel 2
+return
+label end
+push constant 0
+return
+
+function Graphics.safeDrawLine 0
+push constant 0
+push argument 0
+gt
+push constant 511
+push argument 0
+lt
+or
+push constant 0
+push argument 1
+gt
+or
+push constant 255
+push argument 1
+lt
+or
+push constant 0
+push argument 2
+gt
+or
+push constant 511
+push argument 2
+lt
+or
+push constant 0
+push argument 3
+gt
+or
+push constant 255
+push argument 3
+lt
+or
+if-goto end
+push argument 0
+push argument 1
+push argument 2
+push argument 3
+call Screen.drawLine 4
+return
+label end
+push constant 1
+return
+
+function Graphics.background 0
+push static 6
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+push constant 0
+push constant 511
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push static 6
+call Screen.setColor 1
+return
+
+function Graphics.info 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+call Output.printInt 1
+pop temp 0
+push constant 44 // ,
+call Output.printChar 1
+pop temp 0
+push argument 1
+call Output.printInt 1
+pop temp 0
+push constant 44 // ,
+call Output.printChar 1
+pop temp 0
+push argument 2
+call Output.printInt 1
+return
+
+function Graphics.refresh 4
+call Graphics.background 0
+pop temp 0
+push static 4
+pop pointer 0
+push static 4
+push static 5
+add
+pop local 0 // &entities + entities.size
+push constant 0
+pop local 1 // cursor.x
+push constant 0
+pop local 2 // cursor.y
+push constant 0
+pop local 3 // cursor.z
+label loop
+push pointer 0
+push local 0
+lt
+not
+if-goto exit
+push this 3
+push static 2
+gt
+not
+if-goto end
+push this 0
+if-goto line
+push this 1
+push this 2
+push this 3
+call Graphics.toX 3
+push this 1
+push this 2
+push this 3
+call Graphics.toY 3
+call Graphics.safeDrawPixel 2
+goto end
+label line
+push this 1
+push this 2
+push this 3
+call Graphics.toX 3
+push this 1
+push this 2
+push this 3
+call Graphics.toY 3
+push local 1
+push local 2
+push local 3
+call Graphics.toX 3
+push local 1
+push local 2
+push local 3
+call Graphics.toY 3
+call Graphics.safeDrawLine 4
+label end
+pop temp 0
+push this 1
+pop local 1
+push this 2
+pop local 2
+push this 3
+pop local 3
+push pointer 0
+push constant 4
+add
+pop pointer 0
+goto loop
+label exit
+push local 1
+push local 2
+push local 3
+call Graphics.info 3
+return

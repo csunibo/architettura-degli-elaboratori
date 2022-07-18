@@ -1,0 +1,81 @@
+/*
+    Università di Bologna
+    Corso di laurea in Informatica
+    11925 - Architettura degli elaboratori
+
+    Stefano Volpe #969766
+    24/11/2020
+
+    primi.vm
+    Scrivere un programma per la VM che inserisce nello stack i numeri
+    primi minori di 20.
+*/
+
+call    primi.main 0
+
+function primi.main 1
+    push    constant 2
+    pop     local 0
+label       loop // while...
+    push    local 0
+    push    constant 19
+    gt
+    if-goto end // ...local[0] <= 19
+    push    local 0
+    call primi.is_prime 1
+    not
+    if-goto inc // if primi.is_prime(local[0])
+    push    local 0 // print(local[0])
+label       inc
+    push    local 0
+    push    constant 1
+    add
+    pop     local 0 // ++local[0]
+    goto loop
+label       end
+    goto    end
+
+
+function primi.is_prime 1
+    push    constant 2
+    pop     local 0 // local[0] = 2
+label       loop // while...
+    push    local 0
+    push    argument 0
+    lt
+    not
+    if-goto end // ... local[0] < argument[0]
+    push    argument 0
+    push    local 0
+    call    primi.is_divisible_by 2
+    not
+    if-goto inc // if argument[0] % local[0]
+    push    constant 0
+    return // return false
+label       inc
+    push    local 0
+    push    constant 1
+    add
+    pop     local 0 // ++local[0]
+    goto    loop
+label       end
+    push    constant 1
+    neg
+    return // return true
+
+function primi.is_divisible_by 0
+label       loop // while...
+    push    argument 0
+    push    constant 1
+    lt
+    if-goto end // ... argument[0] >= 1
+    push    argument 0
+    push    argument 1
+    sub
+    pop     argument 0  // argument[0] -= argument[1]
+    goto    loop
+label end
+    push    argument 0
+    push    constant 0
+    eq
+    return // return argument[0] == 0

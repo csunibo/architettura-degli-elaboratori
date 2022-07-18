@@ -1,0 +1,211 @@
+/*
+    Università di Bologna
+    Corso di laurea in Informatica
+    11925 - Architettura degli elaboratori
+
+    Stefano Volpe #969766
+    30/11/2020
+
+    puntino.vm
+    Scrivere un programma per la VM che stampa un puntino sullo
+    schermo e consente di spostarlo usando le frecce
+    - Versione semplificata: sposta un segmento orizzontale lungo 16
+      pixel (che in orizzontale si sposta di 16 pixel alla volta)
+    - Per risolvere questo esercizio occorrono i segmenti pointer e
+      that per accedere a schermo e tastiera
+    - That 0 consente di accedere alla locazione di memoria puntata da
+      pointer 1, per cui metto in pointer 1 il puntatore alla locazione
+      alla quale voglio accedere
+*/
+
+call puntino.main 0
+
+function puntino.main 3
+    push    constant 16384
+    pop     local 0 // local[0] = SCREEN (location)
+    push    local 0
+    push    constant 1 
+    pop     local 2 // local[2] = 1 (word value)
+    push    local 2
+    call    puntino.print 2
+    pop     local 1 // local[1] = print(local[0], local[2]) (old location)
+    push    local 0
+    push    local 1
+    push    local 2
+    call    puntino.loop 3
+
+function puntino.increment 0
+    push    argument 0
+    push    constant 1
+    add
+    return // return argument[0] + 1
+
+function puntino.decrement 0
+    push    argument 0
+    push    constant 1
+    sub
+    return // return argument[0] - 1
+
+function puntino.divide_by_base 1
+    push    constant 1
+    pop     local 0 // local[0] = 1
+label       loop // while...
+    push    local 0
+    push    local 0
+    add
+    push    argument 0
+    lt
+    not // ... (2 * local[0] < argument[0])
+    if-goto end
+    push    local 0
+    push    local 0
+    add
+    pop     local 0 // local[0] *= 2
+    goto    loop
+label       end
+    push    local 0
+    return // return local[0]
+
+function puntino.pause 1
+    push    constant 5000
+    pop     local 0 // local[0] = 5000
+label       loop // do ...
+    push    local 0
+    push    constant 1
+    sub
+    pop     local 0 // --local[0]
+    push    local 0
+    if-goto loop // ... while (local[0])
+    push    constant 0
+    return // return 0
+
+function puntino.input 0
+    push    constant 24576
+    pop     pointer 1
+    push    that 0
+    return
+
+function puntino.print 1
+    push      argument 0
+    pop       pointer 1
+    push      argument 1
+    pop       that 0 // *argument[0] = argument[1]
+    push      pointer 1
+    return // return argument[0]
+
+function puntino.clear 1
+    push    argument 0
+    push    constant 0
+    call    puntino.print 2
+    return // return print(argument[0], 0)
+
+function puntino.loop 1
+label      loop
+    call    puntino.pause 0
+    pop     pointer 1 // pause()
+    call    puntino.input 0 // switch(input())
+    pop     local 0 // local[0] = input()
+    push    local 0 // switch (local[0])
+    push    constant 130
+    eq
+    if-goto left
+    push    local 0
+    push    constant 131
+    eq
+    if-goto up
+    push    local 0
+    push    constant 132
+    eq
+    if-goto right
+    push    local 0
+    push    constant 133
+    eq
+    if-goto down
+    goto    loop
+    
+label      left  // case left:
+    push    argument 2
+    push    constant 1
+    eq
+    if-goto reset_left
+    push    argument 2
+    call    puntino.divide_by_base 1
+    pop     argument 2
+    goto    count_left
+label       reset_left
+    push    constant 16384
+    push    argument 0
+    eq
+    if-goto loop
+    push    constant 16384
+    pop     argument 2
+    push    argument 0
+    call    puntino.decrement 1
+    pop     argument 0
+label       count_left
+    push    argument 0
+    push    argument 2
+    call    puntino.print 2
+    goto    switch_end
+
+label       right // case right:
+    push    argument 2
+    push    constant 16384
+    eq
+    if-goto reset_right
+    push    argument 2
+    push    argument 2
+    add
+    pop     argument 2
+    goto    count_right
+label       reset_right
+    push    constant 24575
+    push    argument 0
+    eq
+    if-goto loop
+    push    constant 1
+    pop     argument 2
+    push    argument 0
+    call    puntino.increment 1
+    pop     argument 0
+label       count_right
+    push    argument 0
+    push    argument 2
+    call    puntino.print 2
+    goto    switch_end
+
+label       up  // case up:
+    push    constant 16416
+    push    argument 0
+    gt
+    if-goto loop
+    push    argument 0
+    push    constant 32
+    sub
+    push    argument 2
+    call    puntino.print 2
+    goto    switch_end
+
+label       down // case down:
+    push    constant 24543
+    push    argument 0
+    lt
+    if-goto loop
+    push    argument 0
+    push    constant 32
+    add
+    push    argument 2
+    call    puntino.print 2
+
+label       switch_end
+    pop     argument 0
+    push    argument 1
+    push    argument 0
+    eq
+    if-goto loop
+    push    argument 1
+    call    puntino.clear 1
+    pop     argument 1
+    push    argument 0
+    pop     argument 1
+    goto    loop
