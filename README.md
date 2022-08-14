@@ -5,9 +5,9 @@ Una raccolta di risorse per l'insegnamento di Architettura degli elaboratori
 
 ## Presentazione
 
-[Questo sito](https://csunibo.github.io/architettura-degli-elaboratori) elenca staticamente
-i contenuti della raccolta. Qui, documenti e presentazioni con estensione
-`.md`, `.tex`, `.doc`, `.docx`, `.ppt` o `.pptx` sono automaticamente
+[Questo sito](https://csunibo.github.io/architettura-degli-elaboratori) elenca
+staticamente i contenuti della raccolta. Qui, documenti e presentazioni con
+estensione `.md`, `.tex`, `.doc`, `.docx`, `.ppt` o `.pptx` sono automaticamente
 convertiti in formato PDF.
 
 ## Contribuire
