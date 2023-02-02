@@ -29,6 +29,9 @@ A questi comandi si aggiungono:
 Non accettano parametri e vengono usati per spostare l'osservatore.
 
 ## Avvertenze
+* Scegliere l'opzione di animazione "No animation" all'interno del software
+CPU Emulator per far funzionare il programma
+
 * Se un elemento è anche solo parzialmente fuori dal campo di visibilità
 dell'osservatore, non verrà mostrato a schermo.
 
