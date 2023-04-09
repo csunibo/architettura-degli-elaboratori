@@ -1278,7 +1278,7 @@ Il **programma assembly** è un file con una sequenza di linee di testo. Tra que
 - **A-instruction**
 - **C-instruction**
 - **Dichiarazione di etichette**
-  Le restanti linee di testo invece non presentano la necessità di essere codificate in binario in quanto non devono essere eseguite dalla CPU. Esse possono presentare dei commenti, i quali iniziano con “\\”, spazi bianchi, tabulazioni (‘\t’) o simboli di fine linea (’\r’, ‘\n’).
+  Le restanti linee di testo invece non presentano la necessità di essere codificate in binario in quanto non devono essere eseguite dalla CPU. Esse possono presentare dei commenti, i quali iniziano con “\\”, spazi bianchi, tabulazioni (‘\\t’) o simboli di fine linea (’\\r’, ‘\\n’).
 
 ### Traduzione in linguaggio macchina
 
