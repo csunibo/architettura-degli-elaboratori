@@ -1,0 +1,42 @@
+class Calculus{
+    function int calculateRest(int n1, int n2){
+          while(~(n1 < n2)){
+               let n1 = n1 - n2;
+          }
+
+          return n1;
+     }
+
+     function void calculateBinary(String s, int tmp){
+          var int rest;
+
+          if(tmp > 0){
+               let rest = Calculus.calculateRest(tmp, 2);
+               
+               do Calculus.calculateBinary(s, tmp/2);
+
+               let s = s.appendChar(rest+48);
+          }
+
+          return; 
+     }
+
+     function void calculateHex(String s, int tmp){
+          var int rest;
+
+          if(tmp > 0){
+               let rest = Calculus.calculateRest(tmp, 16);
+               
+               do Calculus.calculateHex(s, tmp/16);
+               
+               if(rest < 10) {
+                    let s = s.appendChar(rest+48);
+               } else {
+                    let s = s.appendChar(rest+55);
+               }
+          }
+
+          return;
+     }
+
+}

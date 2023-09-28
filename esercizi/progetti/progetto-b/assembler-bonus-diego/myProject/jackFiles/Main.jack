@@ -1,0 +1,23 @@
+class Main {
+     function void main () {
+          var int number;
+          var String hex, binary;
+          let binary = String.new(50);
+          let hex = String.new(50);
+
+          let number = Keyboard.readInt("Insert a number: ");
+          do Calculus.calculateBinary(binary, number);
+          
+          do Output.printString("numero binario: ");
+          do Output.printString(binary);
+          do Output.println();
+
+          do Calculus.calculateHex(hex, number);
+
+          do Output.printString("numero esadecimale: ");
+          do Output.printString(hex);
+          do Output.println();
+
+          return;
+     }
+}
