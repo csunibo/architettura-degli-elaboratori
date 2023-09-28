@@ -1,3 +1,4 @@
+// esercizio di Diego Barbieri
 pushing p constant 5
 call FibonacciElement.fibonacci 1
 label WHILE
