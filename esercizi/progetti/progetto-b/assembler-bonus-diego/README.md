@@ -7,3 +7,19 @@ premetto che odio leggere i readme, quindi se stai provando a svolgere il proget
 4. Il progetto secondario in vm code è stato svolto traducendo da linguaggio jack a linguaggio virtual machine, è un semplice programma che traduce numeri in base 10 in binario e esadecimale
 
 ps. usa come meglio credi questo materiale, se ti fai sgamare sei un pollo!
+
+
+---
+Comandi per eserguirlo (makefile)
+```
+SOURCES=main.c assembler.c parser.c instructions.c
+EXECUTABLE=assemble
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(SOURCES)
+	gcc -o VMtranslator $(SOURCES) -g
+
+clean:
+	rm -f $(EXECUTABLE) *.hack
+```
