@@ -1,0 +1,83 @@
+function Calculus.calculateRest 0
+label WHILE_EXP0
+push argument 0
+push argument 1
+lt
+not
+not
+if-goto WHILE_END0
+push argument 0
+push argument 1
+sub
+pop argument 0
+goto WHILE_EXP0
+label WHILE_END0
+push argument 0
+return
+function Calculus.calculateBinary 1
+push argument 1
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push constant 2
+call Calculus.calculateRest 2
+pop local 0
+push argument 0
+push argument 1
+push constant 2
+call Math.divide 2
+call Calculus.calculateBinary 2
+pop temp 0
+push argument 0
+push local 0
+push constant 48
+add
+call String.appendChar 2
+pop argument 0
+label IF_FALSE0
+push constant 0
+return
+function Calculus.calculateHex 1
+push argument 1
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push constant 16
+call Calculus.calculateRest 2
+pop local 0
+push argument 0
+push argument 1
+push constant 16
+call Math.divide 2
+call Calculus.calculateHex 2
+pop temp 0
+push local 0
+push constant 10
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 0
+push local 0
+push constant 48
+add
+call String.appendChar 2
+pop argument 0
+goto IF_END1
+label IF_FALSE1
+push argument 0
+push local 0
+push constant 55
+add
+call String.appendChar 2
+pop argument 0
+label IF_END1
+label IF_FALSE0
+push constant 0
+return

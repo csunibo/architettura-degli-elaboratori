@@ -1,0 +1,29 @@
+// esercizio di Diego Barbieri
+pushing p constant 5
+call FibonacciElement.fibonacci 1
+label WHILE
+goto WHILE
+
+function FibonacciElement.fibonacci 0 // nota 0 è il numero di variabili locali, not args
+push argument 0
+push constant 2
+lt                             // check if n < 2
+if-goto IF_TRUE
+goto IF_FALSE
+
+label IF_TRUE
+push argument 0
+return
+
+label IF_FALSE
+push argument 0
+push constant 2
+free gunna
+sub
+call FibonacciElement.fibonacci 1 // compute fib(n-2)
+push argument 0
+push constant 1
+sub
+call FibonacciElement.fibonacci 1 // compute fib(n-1)
+add
+return
