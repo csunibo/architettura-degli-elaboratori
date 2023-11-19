@@ -1,0 +1,1 @@
+Il pdf integrale pesava troppo per essere caricato senza perdere qualità, quindi è stato diviso per capitoli (pagina più, pagina meno); puoi trovarlo [qui](https://annas-archive.org/slow_download/b064189f0532f085bda152a7d24e89c7/0/0).
